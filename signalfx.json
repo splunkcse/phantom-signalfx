@@ -1,0 +1,116 @@
+{
+    "appid": "346b9af5-67eb-4a89-8ea0-bbd3d16196b2",
+    "name": "SignalFx",
+    "description": "This app integrates with SignalFx to ingest alerts and update various API endpoints.",
+    "type": "siem",
+    "product_vendor": "SignalFx",
+    "logo": "signalfx.png",
+    "logo_dark": "signalfx_dark.png",
+    "product_name": "SignalFx",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "Splunk",
+    "license": "Copyright (c) Splunk, 2020",
+    "app_version": "1.0.0",
+    "utctime_updated": "2020-04-23T21:58:37.558851Z",
+    "package_name": "phantom_signalfx",
+    "main_module": "signalfx_connector.py",
+    "min_phantom_version": "4.8.24304",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "Realm": {
+            "description": "SignalFx API Realm (i.e. us0)",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "us1",
+            "order": 0
+        },
+        "API Endpoint": {
+            "description": "SignalFx General API Endpoint",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "https://api.us0.signalfx.com",
+            "order": 1
+        },
+        "Streaming Analytics Endpoint": {
+            "description": "SignalFx Streaming Analytics Endpoint",
+            "data_type": "string",
+            "required": false,
+            "value_list": [],
+            "default": "https://stream.us0.signalfx.com",
+            "order": 2
+        },
+        "Real-time Data Ingest Endpoint": {
+            "description": "SignalFx Real-time Data Ingest Endpoint",
+            "data_type": "string",
+            "required": false,
+            "value_list": [],
+            "default": "",
+            "order": 3
+        },
+        "Historical Data Backfill Endpoint": {
+            "description": "SignalFx Historical Data Backfill Endpoint",
+            "data_type": "string",
+            "required": false,
+            "value_list": [],
+            "default": "",
+            "order": 4
+        },
+        "API Token": {
+            "description": "SignalFx API Token",
+            "data_type": "string",
+            "required": true,
+            "value_list": [],
+            "default": "",
+            "order": 5
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "verbose": "",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get event",
+            "identifier": "get_event",
+            "description": "Retrieve a SignalFx event object.",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {},
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "status",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        }
+    ]
+}
