@@ -18,45 +18,13 @@
     "min_phantom_version": "4.8.24304",
     "app_wizard_version": "1.0.0",
     "configuration": {
-        "Realm": {
-            "description": "SignalFx API Realm (i.e. us0)",
-            "data_type": "string",
-            "required": true,
-            "value_list": [],
-            "default": "us1",
-            "order": 0
-        },
         "API Endpoint": {
             "description": "SignalFx General API Endpoint",
             "data_type": "string",
             "required": true,
             "value_list": [],
             "default": "https://api.us0.signalfx.com",
-            "order": 1
-        },
-        "Streaming Analytics Endpoint": {
-            "description": "SignalFx Streaming Analytics Endpoint",
-            "data_type": "string",
-            "required": false,
-            "value_list": [],
-            "default": "https://stream.us0.signalfx.com",
-            "order": 2
-        },
-        "Real-time Data Ingest Endpoint": {
-            "description": "SignalFx Real-time Data Ingest Endpoint",
-            "data_type": "string",
-            "required": false,
-            "value_list": [],
-            "default": "",
-            "order": 3
-        },
-        "Historical Data Backfill Endpoint": {
-            "description": "SignalFx Historical Data Backfill Endpoint",
-            "data_type": "string",
-            "required": false,
-            "value_list": [],
-            "default": "",
-            "order": 4
+            "order": 0
         },
         "API Token": {
             "description": "SignalFx API Token",
@@ -64,7 +32,7 @@
             "required": true,
             "value_list": [],
             "default": "",
-            "order": 5
+            "order": 1
         }
     },
     "actions": [
@@ -80,37 +48,43 @@
             "versions": "EQ(*)"
         },
         {
-            "action": "get event",
-            "identifier": "get_event",
-            "description": "Retrieve a SignalFx event object.",
-            "verbose": "",
-            "type": "investigate",
+            "action": "on poll",
+            "description": "Callback action for the on_poll ingest functionality.",
+            "type": "ingest",
+            "identifier": "on_poll",
             "read_only": true,
-            "parameters": {},
-            "output": [
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                }
-            ],
-            "render": {
-                "type": "table"
+            "parameters": {
+              "container_id": {
+                "data_type": "string",
+                "order": 0,
+                "description": "Container IDs to limit the ingestion to.",
+                "allow_list": true
+              },
+              "start_time": {
+                "data_type": "numeric",
+                "order": 1,
+                "description": "Start of time range, in epoch time (milliseconds)",
+                "verbose": "If not specified, the default is past 10 days"
+              },
+              "end_time": {
+                "data_type": "numeric",
+                "order": 2,
+                "description": "End of time range, in epoch time (milliseconds)",
+                "verbose": "If not specified, the default is now"
+              },
+              "container_count": {
+                "data_type": "numeric",
+                "order": 3,
+                "description": "Maximum number of container records to query for."
+              },
+              "artifact_count": {
+                "data_type": "numeric",
+                "order": 4,
+                "description": "Maximum number of artifact records to query for."
+              }
             },
-            "versions": "EQ(*)"
+            "output": [],
+            "versions":"EQ(*)"
         }
     ]
 }
